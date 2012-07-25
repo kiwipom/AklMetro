@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="AklMetro.MainPage"
+    IsTabStop="false"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource
+            x:Name="viewSource"
+            Source="{Binding Groups}"
+            IsSourceGrouped="True" />
+
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+
+        <SemanticZoom>
+            <SemanticZoom.ZoomedOutView>
+                <GridView x:Name="zoomedOutGridView"
+                          Padding="120,120,40,40">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="100" Width="100"
+                                Background="LimeGreen">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding Group.Identifier}"
+                                    Style="{StaticResource HeaderTextStyle}"/>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+                    
+            </SemanticZoom.ZoomedOutView>
+
+            <SemanticZoom.ZoomedInView>
+                <GridView
+                    IsItemClickEnabled="True"
+                    ItemClick="OnQuestionClicked"
+            Padding="120,120,40,40"
+            ItemsSource="{Binding Source={StaticResource viewSource}}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding title}"
+                               Style="{StaticResource BaselineTextStyle}"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+                        Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                Text="{Binding Identifier}"
+                                Style="{StaticResource HeaderTextStyle}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VariableSizedWrapGrid />
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
+    </Grid>
+</Page>
